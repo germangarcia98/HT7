@@ -1,14 +1,12 @@
-﻿/**
- *  Universidad del Valle de Guatemala, Algoritmos y Estructuras de Datos, Seccion 20
- *  @author German Garcia 15008
- *  @author Luis Nájera 15581.
- *  version 02.10.16
- **/
 
+/**
+ *
+ * @author Luis Nájera
+ */
 
 class Hoja extends Arbol {
-    public final char value; 
-
+    public final char value; // A letra é atribuida a um nó folha 
+ 
     public Hoja(int freq, char val) {
         super(freq);
         value = val;
