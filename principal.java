@@ -1,10 +1,16 @@
 import java.util.*;
 import java.util.Scanner;
-/**
- *
- * @author Luis Nájera
- */
 
+/**
+ *  Universidad del Valle de Guatemala, Algoritmos y Estructuras de Datos, Seccion 20
+ *  @author German Garcia 15008
+ *  @author Luis Nájera 15581.
+ *  version 02.10.16
+ **/
+
+/**
+ * Clase principal del programa
+ */
 
 public class principal {
     
@@ -41,19 +47,23 @@ public class principal {
 
     }
 
+    
+     /************************************************************************/
+    
 	/* Crear el árbol de codificación - A partir de la cantidad de frecuencia de cada letra
 	 *                                 crea un árbol binario para la compresión de texto
 	 * Parámetro de entrada: arreglo con frecuencia de cada letra
 	 * Parámetro de salida: el árbol binario.
 	 */
+    
+     /************************************************************************/
+    
     public static Arbol crearArbol(int[] FrecuenciaCaracter) {
     	
         // Se crea una cola de prioridad (PriorityQueue).
     	// La prioridad se define por la frecuencia de cada letra. 
         PriorityQueue<Arbol> cola = new PriorityQueue<>();
         
-
-
 
         // Se crean las hojas para cada letra    
             for (int i = 0; i < FrecuenciaCaracter.length; i++){
@@ -79,10 +89,13 @@ public class principal {
         return cola.poll();
     }
  
+    /************************************************************************/
     /* 
      * Método para recorrer el árbol.
-     * Parâmetros de Entrada: Arbol, StringBuffer
+     * Parametros de Entrada: Arbol, StringBuffer
      */
+     /************************************************************************/
+    
     public static void ImprimirCodigo(Arbol tree, StringBuffer TextoBinario) {
         
         
@@ -90,7 +103,7 @@ public class principal {
             Hoja leaf = (Hoja)tree;
             
             // Imprime la lista con caracter, frecuencia y codigo.
-            System.out.println(leaf.value + "          " + leaf.frequency + "            " + TextoBinario);
+            System.out.println(leaf.valorL + "          " + leaf.frecuencia + "            " + TextoBinario);
  
         } else if (tree instanceof Nodo) {
             Nodo node = (Nodo)tree;
@@ -107,18 +120,21 @@ public class principal {
         }
     }
     
+    /************************************************************************/
     /* 
      * Método para compactar el codigo en una variable (salidaCodigo)
      * Parámetros de Entrada: Arbol, codigos binarios (individuales), codigo compactado
      * Parámetros de salida: Codigo compactado.
      */
+     /************************************************************************/
+    
     public static String getCodigo(Arbol tree, StringBuffer TextoBinario, char salidaCodigo) {
         
         if (tree instanceof Hoja) {
             Hoja leaf = (Hoja)tree;
             
             // Devuelve el texto comprimido
-            if (leaf.value == salidaCodigo ){
+            if (leaf.valorL == salidaCodigo ){
             	return TextoBinario.toString();
             }
             
@@ -135,35 +151,46 @@ public class principal {
             String right = getCodigo(node.right, TextoBinario,salidaCodigo);
             TextoBinario.deleteCharAt(TextoBinario.length()-1);
             
-            if (left==null) return right; else return left;
+            if (left==null){ 
+                return right;
+            } 
+            else {
+                return left;
+            }
         }
 		return null;
     }
         
     
+    /************************************************************************/
+    /**
+     * Metodo para la Decodificacion
+     * Devuelve el valor del nodo y a la vez devuelve el texto decodificado
+     */
+    /************************************************************************/
     
-    public static String decodificador (Arbol tree, String encode) {
+    public static String decodificador (Arbol tree, String binario) {
     	
-    	String decodeText="";
-    	Nodo node = (Nodo)tree;
-    	for (char code : encode.toCharArray()){
+    	String decodificado="";
+    	Nodo nodo = (Nodo)tree;
+    	for (char code : binario.toCharArray()){
     		if (code == '0'){ // Si Izq. = 0.
-    		    if (node.left instanceof Hoja) { 
-    		    	decodeText += ((Hoja)node.left).value; //Devuelve el valor del nodo  
-	                node = (Nodo)tree; // Vuelve a la raiz del arbol.
+    		    if (nodo.left instanceof Hoja) { 
+    		    	decodificado += ((Hoja)nodo.left).valorL; //Devuelve el valor del nodo  
+	                nodo = (Nodo)tree; // Vuelve a la raiz del arbol.
 	    		}else{
-	    			node = (Nodo) node.left; // Continua recorriendo el lado Izq.
+	    			nodo = (Nodo) nodo.left; // Continua recorriendo el lado Izq.
 	    		}
     		}else if (code == '1'){ // Si Der. = 1
-    		    if (node.right instanceof Hoja) {
-    		    	decodeText += ((Hoja)node.right).value; //Devuelve el valor del nodo
-	                node = (Nodo)tree; // Vuelve a la raiz del arbol.
+    		    if (nodo.right instanceof Hoja) {
+    		    	decodificado += ((Hoja)nodo.right).valorL; //Devuelve el valor del nodo
+	                nodo = (Nodo)tree; // Vuelve a la raiz del arbol.
 	    		}else{
-	    			node = (Nodo) node.right; // Continua recorriendo el lado Der.
+	    			nodo = (Nodo) nodo.right; // Continua recorriendo el lado Der.
 	    		}
     		}
     	} 
-    	return decodeText; // Devuelve el texto decodificado
+    	return decodificado; // Devuelve el texto decodificado
     }   
     
 }
